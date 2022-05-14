@@ -9,12 +9,11 @@ use anyhow::{ensure, Context, Result};
 use clap::Parser;
 
 use crate::get_testcase::get_testcase;
-
 mod get_testcase;
 
-fn main() {
+fn main() -> Result<()> {
     let args = Arg::parse();
-    get_testcase(&args.test.unwrap());
+    get_testcase(&args.test.unwrap())
     //println!("{:?}", args);
 }
 

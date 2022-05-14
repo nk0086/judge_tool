@@ -5,17 +5,11 @@ pub fn get_testcase(file_name: &str) -> Result<()> {
     let url = get_url(file_name);
     let body = reqwest::blocking::get(url)?.text()?;
 
-    let pattern = Pattern::new(
-        r#"
-    <section>
-        <pre>{{test_case}}</pre>
-    </section>
-        "#,
-    )
-    .unwrap();
+    let input_case = Pattern::new(r#"<h3>入力例 {{num}}</h3><pre>{{test_case}}</pre>"#).unwrap();
+    let output_case = Pattern::new(r#"<h3>出力例 {{num}}</h3><pre>{{test_case}}</pre>"#).unwrap();
 
-    println!("{:#?}", pattern.matches(&body));
-
+    println!("{:#?}", input_case.matches(&body));
+    println!("{:#?}", output_case.matches(&body));
     Ok(())
 }
 
