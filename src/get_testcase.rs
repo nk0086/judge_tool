@@ -1,3 +1,5 @@
+use core::num;
+
 use anyhow::{Context, Result};
 use easy_scraper::Pattern;
 
@@ -8,8 +10,16 @@ pub fn get_testcase(file_name: &str) -> Result<()> {
     let input_case = Pattern::new(r#"<h3>入力例 {{num}}</h3><pre>{{test_case}}</pre>"#).unwrap();
     let output_case = Pattern::new(r#"<h3>出力例 {{num}}</h3><pre>{{test_case}}</pre>"#).unwrap();
 
-    println!("{:#?}", input_case.matches(&body));
-    println!("{:#?}", output_case.matches(&body));
+    let input_case = input_case.matches(&body);
+    let output_case = output_case.matches(&body);
+
+    //println!("{}", input_case.len());
+    let number_of_test_case = input_case.len();
+    for i in 0..number_of_test_case {
+        let input_test_case = &input_case[i];
+        let output_test_case = &output_case[i];
+        println!("入力{}: {:#?}", i + 1, input_test_case);
+    }
     Ok(())
 }
 
