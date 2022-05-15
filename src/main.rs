@@ -5,15 +5,30 @@
 ーテストの実行
 ー提出
  */
+mod get_testcase;
+mod submit;
+mod test_judge;
+use crate::get_testcase::get_testcase;
+use crate::submit::submit;
+use crate::test_judge::test_judge;
 use anyhow::{ensure, Context, Result};
 use clap::Parser;
-
-use crate::get_testcase::get_testcase;
-mod get_testcase;
+use std::env;
+use std::fs;
 
 fn main() -> Result<()> {
     let args = Arg::parse();
-    get_testcase(&args.test.unwrap())
+    //let mut path = env::current_dir()?;
+
+    if let Some(file_name) = args.new {
+        get_testcase(&file_name)?;
+    } else if let Some(file_name) = args.test {
+        test_judge(&file_name)?;
+    } else if let Some(file_name) = args.submit {
+        submit(&file_name)?;
+    }
+
+    Ok(())
     //println!("{:?}", args);
 }
 
