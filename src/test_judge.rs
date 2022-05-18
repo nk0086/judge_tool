@@ -1,4 +1,5 @@
 use anyhow::{ensure, Context, Result};
+use colored::*;
 use std::env;
 use std::fs::File;
 use std::io::prelude::*;
@@ -11,16 +12,17 @@ pub fn test_judge(file_name: &str) -> Result<()> {
     path.push(file_name);
     env::set_current_dir(&path).unwrap();
 
+    let mut count = 0;
     println!("problem_ID: {}", file_name);
     for i in 1..7 {
-        run(file_name, i)?;
+        run(file_name, i, &mut count)?;
         println!();
     }
 
     Ok(())
 }
 
-fn run(file_name: &str, num: usize) -> Result<()> {
+fn run(file_name: &str, num: usize, &mut ac_count: usize) -> Result<()> {
     let input_case = "in_".to_string() + &num.to_string();
     let mut input_buf = Vec::new();
     let _ = File::open(input_case)?.read_to_end(&mut input_buf)?;
@@ -38,24 +40,20 @@ fn run(file_name: &str, num: usize) -> Result<()> {
 
     child.stdin.as_mut().unwrap().write_all(&input_buf)?;
 
-    let stdout = child.wait_with_output()?.stdout;
-    let mut stdout_pop_tail = stdout.clone();
-    stdout_pop_tail.pop();
+    let mut stdout = child.wait_with_output()?.stdout;
+    stdout.pop();
 
     println!("test_case{}", num);
-    if stdout == answer {
-        println!("status: {}", "AC");
-        println!("expected: {:?}", answer);
-        println!("output: {:?}", stdout);
-    } else if stdout_pop_tail == answer {
-        println!("status: {}", "AC");
-        println!("expected: {:?}", answer);
-        println!("output: {:?}", stdout_pop_tail);
+    let result = if stdout == answer {
+        ac_count += 1;
+        "AC".green()
     } else {
-        println!("status: {}", "not AC");
-        println!("expected: {:?}", answer);
-        println!("output: {:?}", stdout_pop_tail);
-    }
+        "Not AC".red()
+    };
+
+    println!("status: {}", result);
+    println!("expected: {:?}", answer);
+    println!("oupput: {:?}", stdout);
 
     Ok(())
 }
