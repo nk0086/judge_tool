@@ -5,12 +5,15 @@
 ーテストの実行
 ー提出
  */
+mod atcoder;
 mod get_testcase;
 mod submit;
 mod test_judge;
+use crate::atcoder::login;
 use crate::get_testcase::get_testcase;
 use crate::submit::submit;
 use crate::test_judge::test_judge;
+
 use anyhow::{ensure, Context, Result};
 use clap::Parser;
 use std::env;
@@ -18,7 +21,14 @@ use std::fs;
 
 fn main() -> Result<()> {
     let args = Arg::parse();
-    //let mut path = env::current_dir()?;
+
+    //println!("input your user_name!");
+    //let mut user_name = String::new();
+    //std::io::stdin().read_line(&mut user_name).ok();
+    //println!("input your password.");
+    //let mut password = String::new();
+    //std::io::stdin().read_line(&mut password).ok();
+    //login(&user_name, &password);
 
     if let Some(file_name) = args.new {
         get_testcase(&file_name)?;
@@ -47,4 +57,6 @@ struct Arg {
     submit: Option<String>,
     #[clap(short, long)]
     new: Option<String>,
+    #[clap(short, long)]
+    login: Option<String>,
 }
