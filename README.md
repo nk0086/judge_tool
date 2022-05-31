@@ -4,7 +4,7 @@
 しばらく進捗管理リストになります。
 
 ## demo
-![result](test-demo.gif)
+![result](https://github.com/nk0086/judge_tool/blob/main/test_demo.gif)
 ## todo
 
 * Test
