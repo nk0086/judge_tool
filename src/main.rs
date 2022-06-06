@@ -28,7 +28,7 @@ fn main() -> Result<()> {
     //println!("input your password.");
     //let mut password = String::new();
     //std::io::stdin().read_line(&mut password).ok();
-    //login(&user_name, &password);
+    login();
 
     if let Some(file_name) = args.new {
         get_testcase(&file_name)?;
