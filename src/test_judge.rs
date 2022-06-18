@@ -12,17 +12,16 @@ pub fn test_judge(file_name: &str) -> Result<()> {
     path.push(file_name);
     env::set_current_dir(&path).unwrap();
 
-    let mut count = 0;
     println!("problem_ID: {}", file_name);
     for i in 1..7 {
-        run(file_name, i, &mut count)?;
+        run(file_name, i)?;
         println!();
     }
 
     Ok(())
 }
 
-fn run(file_name: &str, num: usize, &mut ac_count: usize) -> Result<()> {
+fn run(file_name: &str, num: usize) -> Result<()> {
     let input_case = "in_".to_string() + &num.to_string();
     let mut input_buf = Vec::new();
     let _ = File::open(input_case)?.read_to_end(&mut input_buf)?;
@@ -44,16 +43,18 @@ fn run(file_name: &str, num: usize, &mut ac_count: usize) -> Result<()> {
     stdout.pop();
 
     println!("test_case{}", num);
-    let result = if stdout == answer {
-        ac_count += 1;
-        "AC".green()
-    } else {
-        "Not AC".red()
-    };
+    let result = if stdout == answer { "AC" } else { "Not AC" };
 
-    println!("status: {}", result);
-    println!("expected: {:?}", answer);
-    println!("oupput: {:?}", stdout);
+    let answer: Vec<char> = answer.into_iter().map(|s| s as char).collect();
+    let stdout: Vec<char> = stdout.into_iter().map(|s| s as char).collect();
+
+    if result == "AC" {
+        println!("status: {}", result.green());
+    } else {
+        println!("status: {}", result);
+        println!("expected: {:?}", answer);
+        println!("oupput: {:?}", stdout);
+    }
 
     Ok(())
 }
