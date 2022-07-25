@@ -1,6 +1,7 @@
 use anyhow::{ensure, Context, Result};
 use colored::*;
 use std::env;
+use std::fs;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::{BufReader, Read};
@@ -12,8 +13,11 @@ pub fn test_judge(file_name: &str) -> Result<()> {
     path.push(file_name);
     env::set_current_dir(&path).unwrap();
 
+    let dir = fs::read_dir(path)?;
+
+    let dir_number = dir.into_iter().collect::<Vec<_>>().len();
     println!("problem_ID: {}", file_name);
-    for i in 1..7 {
+    for i in 1..dir_number / 2 + 1 {
         run(file_name, i)?;
         println!();
     }
