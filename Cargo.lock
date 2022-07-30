@@ -118,6 +118,24 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c4872d67bab6358e59559027aa3b9157c53d9358c51423c17554809a8858e0f8"
 
 [[package]]
+name = "cargo-judge"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "clap",
+ "colored",
+ "dialoguer",
+ "easy-scraper",
+ "failure",
+ "proconio",
+ "reqwest",
+ "scraper",
+ "thirtyfour",
+ "tokio",
+ "url",
+]
+
+[[package]]
 name = "cc"
 version = "1.0.73"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -788,24 +806,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "671a26f820db17c2a2750743f1dd03bafd15b98c9f30c7c2628c024c05d73397"
 dependencies = [
  "wasm-bindgen",
-]
-
-[[package]]
-name = "judge_tools"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "clap",
- "colored",
- "dialoguer",
- "easy-scraper",
- "failure",
- "proconio",
- "reqwest",
- "scraper",
- "thirtyfour",
- "tokio",
- "url",
 ]
 
 [[package]]

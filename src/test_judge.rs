@@ -7,6 +7,7 @@ use std::io::prelude::*;
 use std::io::{BufReader, Read};
 use std::process::{Command, Stdio};
 
+/// Run all the test cases in question and display the overall results.
 pub fn test_judge(file_name: &str) -> Result<()> {
     let mut path = env::current_dir()?;
     path.push("test_cases");
@@ -25,6 +26,7 @@ pub fn test_judge(file_name: &str) -> Result<()> {
     Ok(())
 }
 
+/// Execute the received test cases and display the results.
 fn run(file_name: &str, num: usize) -> Result<()> {
     let input_case = "in_".to_string() + &num.to_string();
     let mut input_buf = Vec::new();
@@ -57,7 +59,7 @@ fn run(file_name: &str, num: usize) -> Result<()> {
     } else {
         println!("status: {}", result);
         println!("expected: {:?}", answer);
-        println!("oupput: {:?}", stdout);
+        println!("output: {:?}", stdout);
     }
 
     Ok(())

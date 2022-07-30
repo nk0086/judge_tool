@@ -19,6 +19,25 @@ use clap::Parser;
 use std::env;
 use std::fs;
 
+#[derive(Parser, Debug)]
+#[clap(
+    name = "auto judge tools",
+    version = "1.0.0",
+    author = "nk0086",
+    about = "Support for testing and submitting code in AtCoder."
+)]
+struct Arg {
+    ///select option: make file, test code, submit code
+    #[clap(short, long)]
+    test: Option<String>,
+    #[clap(short, long)]
+    submit: Option<String>,
+    #[clap(short, long)]
+    new: Option<String>,
+    #[clap(short, long)]
+    login: Option<String>,
+}
+
 fn main() -> Result<()> {
     let args = Arg::parse();
 
@@ -40,23 +59,4 @@ fn main() -> Result<()> {
 
     Ok(())
     //println!("{:?}", args);
-}
-
-#[derive(Parser, Debug)]
-#[clap(
-    name = "auto judge tools",
-    version = "1.0.0",
-    author = "nk0086",
-    about = "Support for testing and submitting code in AtCoder."
-)]
-struct Arg {
-    ///select option: make file, test code, submit code
-    #[clap(short, long)]
-    test: Option<String>,
-    #[clap(short, long)]
-    submit: Option<String>,
-    #[clap(short, long)]
-    new: Option<String>,
-    #[clap(short, long)]
-    login: Option<String>,
 }
