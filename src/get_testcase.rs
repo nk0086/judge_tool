@@ -4,12 +4,13 @@ use std::env;
 use std::fs;
 use std::io::prelude::*;
 
+/// Download the test cases from the link of the specified issue.
 pub fn get_testcase(file_name: &str) -> Result<()> {
     let mut path = env::current_dir()?;
     path.push("test_cases");
     path.push(file_name);
-    //fs::create_dir(&path)?;
-    env::set_current_dir(&path).unwrap();
+    fs::create_dir_all(&path)?;
+    env::set_current_dir(&path)?;
 
     //println!("{:?}", path);
     let url = get_url(file_name);
@@ -35,6 +36,7 @@ pub fn get_testcase(file_name: &str) -> Result<()> {
 }
 
 //todo: abcxxx_d 以外の形式の時の処理
+/// Create a link to the problem from the Problem_ID.
 fn get_url(file_name: &str) -> String {
     let contest_name: Vec<&str> = file_name.split("_").collect();
     let base_url =
