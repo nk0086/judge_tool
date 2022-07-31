@@ -1,14 +1,17 @@
-use anyhow::{Context, Result};
+use anyhow::Result;
 use easy_scraper::Pattern;
 use std::env;
 use std::fs;
 use std::io::prelude::*;
+use toml;
 
 /// Download the test cases from the link of the specified issue.
 pub fn get_testcase(file_name: &str) -> Result<()> {
+    let problem_id = file_name.split("_").collect::<Vec<_>>();
     let mut path = env::current_dir()?;
     path.push("test_cases");
-    path.push(file_name);
+    path.push(problem_id[0]);
+    path.push(problem_id[1]);
     fs::create_dir_all(&path)?;
     env::set_current_dir(&path)?;
 
@@ -41,7 +44,7 @@ fn get_url(file_name: &str) -> String {
     let contest_name: Vec<&str> = file_name.split("_").collect();
     let base_url =
         "https://atcoder.jp/contests/".to_string() + contest_name[0] + "/tasks/" + file_name;
-    println!("{}", base_url);
+    //println!("{}", base_url);
     base_url
 }
 

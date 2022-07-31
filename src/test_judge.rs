@@ -1,21 +1,24 @@
-use anyhow::{ensure, Context, Result};
+use anyhow::Result;
 use colored::*;
+use std::collections::HashMap;
 use std::env;
 use std::fs;
 use std::fs::File;
 use std::io::prelude::*;
-use std::io::{BufReader, Read};
+use std::io::Read;
 use std::process::{Command, Stdio};
 
 /// Run all the test cases in question and display the overall results.
 pub fn test_judge(file_name: &str) -> Result<()> {
-    let mut path = env::current_dir()?;
-    path.push("test_cases");
-    path.push(file_name);
-    env::set_current_dir(&path).unwrap();
+    //let problem_id = file_name.split("_").collect::<Vec<_>>();
+    let path = env::current_dir()?;
+    //path.push("test_cases");
+    //path.push(problem_id[0]);
+    //path.push(problem_id[1]);
+    //fs::create_dir_all(&path)?;
+    //env::set_current_dir(&path).unwrap();
 
     let dir = fs::read_dir(path)?;
-
     let dir_number = dir.into_iter().collect::<Vec<_>>().len();
     println!("problem_ID: {}", file_name);
     for i in 1..dir_number / 2 + 1 {
