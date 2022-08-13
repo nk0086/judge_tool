@@ -39,6 +39,7 @@ fn run(file_name: &str, num: usize) -> Result<()> {
     let mut answer = Vec::new();
     let _ = File::open(output_case)?.read_to_end(&mut answer)?;
 
+    // tomlからファイル読み込んでコンパイルする
     let mut child = Command::new("cargo")
         .args(["run", "--bin", file_name])
         .stdin(Stdio::piped())

@@ -15,8 +15,8 @@ use url::Url;
 
 pub async fn login() -> Result<()> {
     let mut map = HashMap::new();
-    map.insert("username", "pori_na");
-    map.insert("password", "Hjcg1872");
+    map.insert("username", "username");
+    map.insert("password", "password");
 
     let url = "https://atcoder.jp/login";
     let client = reqwest::Client::new();
