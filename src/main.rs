@@ -7,10 +7,12 @@
  */
 mod atcoder;
 mod get_testcase;
+mod json;
 mod new;
 mod submit;
 mod test_judge;
 use crate::get_testcase::get_testcase;
+use crate::json::read_json;
 use crate::new::new;
 use crate::submit::submit;
 use crate::test_judge::test_judge;
@@ -37,22 +39,24 @@ struct Arg {
     extensions: Option<String>,
     #[clap(short, long)]
     login: Option<String>,
+    #[clap(short, long)]
+    command: Option<String>,
 }
 
 fn main() -> Result<()> {
     let args = Arg::parse();
 
     let extensions = if let Some(k) = args.extensions {
-        ".".to_string() + &k
+        format!("{}", &k)
     } else {
-        ".rs".to_string()
+        format!("rs")
     };
 
     if let Some(file_name) = args.new {
         new(&file_name, &extensions)?;
     } else if let Some(file_name) = args.test {
         get_testcase(&file_name)?;
-        test_judge(&file_name)?;
+        test_judge(&file_name, &extensions)?;
     } else if let Some(file_name) = args.submit {
         submit(&file_name)?;
     }

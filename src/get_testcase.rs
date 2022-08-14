@@ -3,12 +3,12 @@ use easy_scraper::Pattern;
 use std::env;
 use std::fs;
 use std::io::prelude::*;
-use toml;
 
 /// Download the test cases from the link of the specified issue.
 pub fn get_testcase(file_name: &str) -> Result<()> {
     let problem_id = file_name.split("_").collect::<Vec<_>>();
     let mut path = env::current_dir()?;
+    let base_path = path.clone();
     path.push("test_cases");
     path.push(problem_id[0]);
     path.push(problem_id[1]);
@@ -35,6 +35,9 @@ pub fn get_testcase(file_name: &str) -> Result<()> {
         in_case.write_all(input_test_case["test_case"].as_bytes())?;
         out_case.write_all(output_test_case["test_case"].as_bytes())?;
     }
+
+    env::set_current_dir(&base_path)?;
+    //println!("{:?}", base_path);
     Ok(())
 }
 

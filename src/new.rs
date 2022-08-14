@@ -35,7 +35,7 @@ pub fn new(contest_id: &str, extensions: &str) -> Result<()> {
     }
 
     for id in id_array {
-        fs::File::create(id + extensions)?;
+        fs::File::create(id + "." + extensions)?;
     }
 
     Ok(())
