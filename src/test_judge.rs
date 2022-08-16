@@ -50,7 +50,8 @@ fn run(
     let mut answer = Vec::new();
     let _ = File::open(output_case)?.read_to_end(&mut answer)?;
 
-    let tmp = format!("{}.{}", file_name, extensions);
+    let extension = command_json[extensions]["extensions"].as_str().unwrap();
+    let tmp = format!("{}.{}", file_name, extension);
     let file_name = if extensions != "rs" { &tmp } else { file_name };
 
     // read compile command from command.json

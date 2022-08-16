@@ -49,7 +49,7 @@ fn main() -> Result<()> {
     let extensions = if let Some(k) = args.extensions {
         format!("{}", &k)
     } else {
-        format!("rs")
+        format!("default")
     };
 
     if let Some(file_name) = args.new {
