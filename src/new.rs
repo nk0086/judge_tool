@@ -22,9 +22,9 @@ pub fn new(contest_id: &str, extensions: &str) -> Result<()> {
     //println!("{}", pat);
     let pat = format!(
         r#"
-        <a href="/contests/abc250/tasks/{{{}}}"></a>
+        <a href="/contests/{}/tasks/{{{}}}"></a>
         "#,
-        "{id}"
+        contest_id, "{id}"
     );
 
     let problem_id = Pattern::new(&pat).unwrap();
