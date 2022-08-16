@@ -23,7 +23,7 @@ use clap::Parser;
 #[derive(Parser, Debug)]
 #[clap(
     name = "auto judge tools",
-    version = "1.0.0",
+    version = "0.0.9",
     author = "nk0086",
     about = "Support for testing and submitting code in AtCoder."
 )]
@@ -36,7 +36,7 @@ struct Arg {
     #[clap(short, long)]
     new: Option<String>,
     #[clap(short, long)]
-    extensions: Option<String>,
+    extension: Option<String>,
     #[clap(short, long)]
     login: Option<String>,
     #[clap(short, long)]
@@ -46,19 +46,24 @@ struct Arg {
 fn main() -> Result<()> {
     let args = Arg::parse();
 
-    let extensions = if let Some(k) = args.extensions {
+    let extension = if let Some(k) = args.extension {
         format!("{}", &k)
     } else {
-        format!("rs")
+        format!("default")
     };
 
-    if let Some(file_name) = args.new {
-        new(&file_name, &extensions)?;
+    // json で指定したデフォルトのファイルを作成できるようにする
+    if let Some(contest_name) = args.new {
+        // ex) contest_name: abc250
+        new(&contest_name, &extension)?;
     } else if let Some(file_name) = args.test {
-        get_testcase(&file_name)?;
-        test_judge(&file_name, &extensions)?;
-    } else if let Some(file_name) = args.submit {
-        submit(&file_name)?;
+        // ex) file_name: abc250_a.py
+        let file_name: Vec<_> = file_name.split(".").collect();
+
+        get_testcase(&file_name[0])?;
+        test_judge(&file_name[0], &file_name[1])?;
+    } else if let Some(problem_name) = args.submit {
+        submit(&problem_name)?;
     }
 
     Ok(())

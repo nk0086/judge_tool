@@ -11,7 +11,7 @@ use std::path::PathBuf;
 use std::process::{Command, Stdio};
 
 /// Run all the test cases in question and display the overall results.
-pub fn test_judge(file_name: &str, extensions: &str) -> Result<()> {
+pub fn test_judge(file_name: &str, extension: &str) -> Result<()> {
     let command_json = read_json();
 
     let problem_id = file_name.split("_").collect::<Vec<_>>();
@@ -25,7 +25,7 @@ pub fn test_judge(file_name: &str, extensions: &str) -> Result<()> {
     let dir_number = dir.into_iter().collect::<Vec<_>>().len();
     println!("problem_ID: {}", file_name);
     for i in 1..dir_number / 2 + 1 {
-        run(file_name, i, &command_json, &path, extensions)?;
+        run(file_name, i, &command_json, &path, extension)?;
         println!();
     }
 
@@ -38,7 +38,7 @@ fn run(
     num: usize,
     command_json: &Value,
     path: &PathBuf,
-    extensions: &str,
+    extension: &str,
 ) -> Result<()> {
     let mut input_case = path.clone();
     input_case.push(format!("in_{}", num.to_string()));
@@ -50,12 +50,12 @@ fn run(
     let mut answer = Vec::new();
     let _ = File::open(output_case)?.read_to_end(&mut answer)?;
 
-    let tmp = format!("{}.{}", file_name, extensions);
-    let file_name = if extensions != "rs" { &tmp } else { file_name };
+    let tmp = format!("{}.{}", file_name, extension);
+    let file_name = if extension != "rs" { &tmp } else { file_name };
 
     // read compile command from command.json
-    let command: &str = command_json[extensions]["command"].as_str().unwrap();
-    let args = match command_json[extensions]["args"].as_array() {
+    let command: &str = command_json[extension]["command"].as_str().unwrap();
+    let args = match command_json[extension]["args"].as_array() {
         Some(k) => {
             let mut k = k
                 .into_iter()
@@ -81,6 +81,7 @@ fn run(
     stdout.pop();
 
     // Test result
+    // TLE, RE も出す
     println!("test_case{}", num);
     let result = if stdout == answer { "AC" } else { "Not AC" };
 
