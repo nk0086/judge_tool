@@ -4,6 +4,7 @@ use std::env;
 use std::fs;
 use std::io::prelude::*;
 
+// 既にダウンロードしてないかチェック
 /// Download the test cases from the link of the specified issue.
 pub fn get_testcase(file_name: &str) -> Result<()> {
     let problem_id = file_name.split("_").collect::<Vec<_>>();
