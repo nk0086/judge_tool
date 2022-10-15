@@ -11,6 +11,7 @@ mod json;
 mod new;
 mod submit;
 mod test_judge;
+use crate::atcoder::login_to_atcoder;
 use crate::get_testcase::get_testcase;
 use crate::json::read_json;
 use crate::new::new;
@@ -51,6 +52,11 @@ fn main() -> Result<()> {
     } else {
         format!("default")
     };
+
+    //login_to_atcoder();
+    //if let Some(_) = args.login {
+    //    login_to_atcoder();
+    //}
 
     // json で指定したデフォルトのファイルを作成できるようにする
     if let Some(contest_name) = args.new {
