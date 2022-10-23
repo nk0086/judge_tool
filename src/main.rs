@@ -11,9 +11,9 @@ mod json;
 mod new;
 mod submit;
 mod test_judge;
+
 use crate::atcoder::login_to_atcoder;
 use crate::get_testcase::get_testcase;
-use crate::json::read_json;
 use crate::new::new;
 use crate::submit::submit;
 use crate::test_judge::test_judge;
@@ -44,7 +44,8 @@ struct Arg {
     command: Option<String>,
 }
 
-fn main() -> Result<()> {
+#[async_std::main]
+async fn main() -> Result<()> {
     let args = Arg::parse();
 
     let extension = if let Some(k) = args.extension {
@@ -53,6 +54,7 @@ fn main() -> Result<()> {
         format!("default")
     };
 
+    login_to_atcoder().await?;
     //login_to_atcoder();
     //if let Some(_) = args.login {
     //    login_to_atcoder();
