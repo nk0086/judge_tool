@@ -1,10 +1,10 @@
-use anyhow::{Context, Result};
+use anyhow::Result;
 /*
 アカウントへのログイン
 1. テスト
 2. 提出
 3. 提出履歴の確認
 */
-pub fn submit(file_name: &str) -> Result<()> {
+pub fn submit(_file_name: &str) -> Result<()> {
     todo!();
 }
