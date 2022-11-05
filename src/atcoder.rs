@@ -26,18 +26,21 @@ pub async fn login_to_atcoder() -> Result<()> {
     .unwrap();
 
     let csrf_token = pat.matches(&body)[0]["token"].to_string();
-    //println!("{}", csrf_token);
-
-    let res = client
-        .post(url)
-        .form(&[
-            ("username", username.trim()),
-            ("password", password.trim()),
-            ("csrf_token", &csrf_token),
-        ])
-        .send()
-        .await?;
+    let url = format!(
+        "https://atcoder.jp/login?username={}&password={}&csrf_token={}",
+        username, password, csrf_token
+    );
+    let res = client.post(&url).send().await?;
     println!("{:?}", res);
+    //let res = client
+    //    .post(url)
+    //    .form(&[
+    //        ("username", username.trim()),
+    //       "password", password.trim()),
+    //        ("csrf_token", &csrf_token),
+    //    ])
+    //    .send()
+    //    .await?;
 
     // set cookie
     let cookie = res.headers().get("set-cookie").unwrap().to_str().unwrap();
