@@ -17,28 +17,6 @@ pub async fn login_to_atcoder() -> Result<()> {
 
     let client = reqwest::Client::new();
     let body = client.get(&url).send().await?.text().await?;
-    // set cookie
-    let cookie = client
-        .get(&url)
-        .send()
-        .await?
-        .headers()
-        .get("set-cookie")
-        .unwrap()
-        .to_str()
-        .unwrap()
-        .to_string();
-    let cookie = cookie.split(";").collect::<Vec<&str>>()[0];
-    // restore cookie
-    let cookie = format!(
-        "{};{}",
-        cookie,
-        body.split("name=\"csrf_token\"").collect::<Vec<&str>>()[1]
-            .split("value=\"")
-            .collect::<Vec<&str>>()[1]
-            .split("\"")
-            .collect::<Vec<&str>>()[0]
-    );
 
     let pat = Pattern::new(
         r#"
@@ -48,12 +26,11 @@ pub async fn login_to_atcoder() -> Result<()> {
     .unwrap();
 
     let csrf_token = pat.matches(&body)[0]["token"].to_string();
-    println!("csrf_token: {}", csrf_token);
     // ログイン認証 クエリパラメータ
     let params = [
-        ("username", username.trim()),
-        ("password", password.trim()),
-        ("csrf_token", &cookie),
+        ("username", &username),
+        ("password", &password),
+        ("csrf_token", &csrf_token),
     ];
     let res = client.post(&url).form(&params).send().await?;
     let body = res.text().await?;
@@ -64,10 +41,8 @@ pub async fn login_to_atcoder() -> Result<()> {
     )
     .unwrap();
 
-    dbg!(&body);
-
     let user_name = pat.matches(&body)[1]["name"].to_string();
-    if user_name == username.trim() {
+    if user_name == username {
         println!("login success");
         println!("{}", body);
     } else {
