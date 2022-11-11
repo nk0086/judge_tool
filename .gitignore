@@ -1,4 +1,7 @@
 /target
 /test_cases
 /src/bin
-/cookie
+/shellscript/cookie
+/shellscript/.git
+/shellscript/.gitignore
+/shellscript/language.json
